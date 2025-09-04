@@ -113,5 +113,6 @@ ROLLBAR = {
     'root': BASE_DIR,
 }
 
-# if ROLLBAR['access_token']:
-#     rollbar.init(**ROLLBAR)
+if ROLLBAR['access_token']:
+    rollbar.init(**ROLLBAR)
+#1

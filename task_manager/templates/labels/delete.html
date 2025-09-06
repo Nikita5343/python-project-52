@@ -1,15 +1,16 @@
-{% extends "base.html" %}
+{% extends 'layout.html' %}
+{% load django_bootstrap5 %}
 {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
 
 {% block content %}
-    <div class="container wrapper flex-grow-1">
-        <h1 class="my-4">{% translate "Delete Label" %}</h1>
-        <p>{% translate "Are you sure you want to delete" %} {{ label.name }}?</p>
-        
-        <form method="post">
-            {% csrf_token %}
-            <input class="btn btn-danger" type="submit" value="{% translate 'Yes, delete' %}">
-        </form>
-    </div>
+<div class="container wrapper flex-grow-1">
+    <h1 class="my-4">{% trans "Delete label" %}</h1>
+    <p>
+      {% blocktrans %}Are you sure you want to delete {{ label }}?{% endblocktrans %}
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Yes, delete" %}</button>
+    </form>
+</div>
 {% endblock %}

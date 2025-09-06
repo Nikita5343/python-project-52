@@ -20,7 +20,14 @@
 # If you're wondering how this is created, it is generated using
 # `scripts/generate.py` in https://github.com/pypa/get-pip.
 
+import argparse
+import importlib
+import os.path
+import pkgutil
+import shutil
 import sys
+import tempfile
+from base64 import b85decode
 
 this_python = sys.version_info[:2]
 min_version = (3, 9)
@@ -28,24 +35,17 @@ if this_python < min_version:
     message_parts = [
         "This script does not work on Python {}.{}.".format(*this_python),
         "The minimum supported Python version is {}.{}.".format(*min_version),
-        "Please use https://bootstrap.pypa.io/pip/{}.{}/get-pip.py instead.".format(*this_python),
+        "Please use https://bootstrap.pypa.io/pip/{}.{}/get-pip.py instead.".
+        format(*this_python),
     ]
     print("ERROR: " + " ".join(message_parts))
     sys.exit(1)
 
 
-import argparse
-import importlib
-import os.path
-import pkgutil
-import shutil
-import tempfile
-from base64 import b85decode
-
-
 def include_setuptools(args):
     """
-    Install setuptools only if absent, not excluded and when using Python <3.12.
+    Install setuptools only if absent, not excluded and when using Python 
+    <3.12.
     """
     cli = not args.no_setuptools
     env = not os.environ.get("PIP_NO_SETUPTOOLS")
@@ -83,12 +83,16 @@ def determine_pip_install_arguments():
 
 
 def monkeypatch_for_cert(tmpdir):
-    """Patches `pip install` to provide default certificate with the lowest priority.
+    """Patches `pip install` to provide default certificate with the lowest 
+    priority.
 
-    This ensures that the bundled certificates are used unless the user specifies a
-    custom cert via any of pip's option passing mechanisms (config, env-var, CLI).
+    This ensures that the bundled certificates are used unless the user 
+    specifies a
+    custom cert via any of pip's option passing mechanisms (config, env-var, 
+    CLI).
 
-    A monkeypatch is the easiest way to achieve this, without messing too much with
+    A monkeypatch is the easiest way to achieve this, without messing too much 
+    with
     the rest of pip's internals.
     """
     from pip._internal.commands.install import InstallCommand

@@ -12,4 +12,6 @@ coverage.xml
 *_cache/
 staticfiles/
 *.sqlite3
-.idea
+.idea/
+get-pip.py
+main.py
